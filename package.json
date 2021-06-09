@@ -1,0 +1,26 @@
+{
+  "name": "mundipagg",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "start": "pm2 start app.js -o logs/out.log -e logs/err.log --name wsmundipagg --log-date-format=YYYY-MM-DD HH:mm",
+    "stop": "pm2 stop app.js",
+    "restart": "pm2 restart wsmundipagg"
+    },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NathLanzarine/mundipagg.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/NathLanzarine/mundipagg/issues"
+  },
+  "homepage": "https://github.com/NathLanzarine/mundipagg#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "node-fetch": "^2.6.1",
+    "pm2": "^5.0.4"
+  }
+}
