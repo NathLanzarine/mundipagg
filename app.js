@@ -9,21 +9,21 @@ headers = {
     'Authorization': apiKey
 };
 
-app.get('/getcustomerid/:document', async (req, res) => {
+app.get('/getcustomerid/:document', (req, res) => {
     let document = req.params.document
-    await fetch(`${url}/customers?document=${document}`, { method: 'GET', headers: headers})
+    fetch(`${url}/customers?document=${document}`, { method: 'GET', headers: headers})
     .then(response => response.json())
     .then(response => {
         result = response.data
         
         if (result.length == 0)
-          res.status(503).json({msg: "não encontrado"})
+          res.status(503).send("Cliente Nao Encontrado")
         else
-          res.status(200).json({id: result[0].id})
+          res.status(200).send(result[0].id)
       })
  })
 
- app.get('/gettoken/:customerid/:cardnumber/:month/:year/:cvv', async (req, res) => {
+ app.get('/gettoken/:customerid/:cardnumber/:month/:year/:cvv', (req, res) => {
     let customerid = req.params.customerid
 
     body = JSON.stringify({
@@ -33,21 +33,14 @@ app.get('/getcustomerid/:document', async (req, res) => {
         cvv: req.params.cvv 
     })
 
-    await fetch(`${url}/customers/${customerid}/cards`, { method: 'POST', headers, body})
+    fetch(`${url}/customers/${customerid}/cards`, { method: 'POST', headers, body})
     .then(response => response.json())
     .then(response => {
         if(response.errors === undefined ){
-            res.status(200).json({
-              msg: "sucess", 
-              last4: response.last_four_digits,
-              brand: response.brand,
-              valid_month: response.exp_month,
-              valid_year: response.exp_year,
-              token: response.id
-          })
+            res.status(200).send(`success;${response.last_four_digits};${response.brand};${response.exp_month};${response.exp_year};${response.id}`)
         }
         else
-            res.status(503).json({msg: response.message})
+            res.status(503).send(`${response.message};Dados fornecidos do cartao são inválidos`)
       })
  })
 
