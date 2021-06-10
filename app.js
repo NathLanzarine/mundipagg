@@ -17,7 +17,7 @@ app.get('/getcustomerid/:document', (req, res) => {
         result = response.data
         
         if (result.length == 0)
-          res.status(503).send("Cliente Nao Encontrado")
+          res.status(503).send("NotFound")
         else
           res.status(200).send(result[0].id)
       })
@@ -37,10 +37,10 @@ app.get('/getcustomerid/:document', (req, res) => {
     .then(response => response.json())
     .then(response => {
         if(response.errors === undefined ){
-            res.status(200).send(`success;${response.last_four_digits};${response.brand};${response.exp_month};${response.exp_year};${response.id}`)
+            res.status(200).send(`Success,${response.last_four_digits},${response.brand},${response.exp_month},${response.exp_year},${response.id}`)
         }
         else
-            res.status(503).send(`${response.message};Dados fornecidos do cartao são inválidos`)
+            res.status(503).send(`${response.message},Erro ao gerar token. Dados do cartao Invalidos`)
       })
  })
 
